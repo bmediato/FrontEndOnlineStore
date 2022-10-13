@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getProductById } from '../services/api';
+import StarRating from '../components/StarRating';
 
 export default class ProductDetail extends Component {
   state = {
@@ -23,6 +24,7 @@ export default class ProductDetail extends Component {
   };
 
   render() {
+    const { match: { params: { id } } } = this.props;
     const { response, cartProducts } = this.state;
     return (
       <>
@@ -56,6 +58,7 @@ export default class ProductDetail extends Component {
             Add to Cart
           </button>
         </div>
+        <StarRating product={ id } />
       </>
     );
   }
