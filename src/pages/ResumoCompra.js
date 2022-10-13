@@ -16,13 +16,6 @@ class ResumoCompra extends React.Component {
     };
   }
 
-  onImputChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    }, this.verificaFormulario());
-  };
-
   verificaFormulario = () => {
     const { nome, email, cpf, telefone, cep, endereco, pagamento } = this.state;
     const validarNome = nome.length >= 1;
@@ -34,10 +27,15 @@ class ResumoCompra extends React.Component {
     const validarPagamento = pagamento.length >= 1;
     if (!validarNome || !validarEmail || !validaCpf
         || !validarTelefone || !validarCep || !validarEndereco || !validarPagamento) {
-      <p data-testid="error-msg">
-            Campos inválidos
-      </p>;
+      return (<p data-testid="error-msg">Campos inválidos</p>);
     }
+  };
+
+  onImputChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    }, this.verificaFormulario());
   };
 
   render() {
