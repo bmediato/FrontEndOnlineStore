@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import ResumoCompra from './ResumoCompra';
 
 class ShoppingCart extends React.Component {
   state = {
@@ -95,6 +97,21 @@ class ShoppingCart extends React.Component {
               </button>
             </div>
           ))}
+        <div>
+          <ResumoCompra />
+        </div>
+        <div>
+          <Link
+            to="/ResumoCompra"
+            data-testid="checkout-products"
+          >
+            <button
+              type="button"
+            >
+              Comprar
+            </button>
+          </Link>
+        </div>
       </div>
     );
   }
