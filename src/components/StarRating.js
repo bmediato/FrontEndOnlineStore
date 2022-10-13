@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import Reviews from './Reviews';
 
 const five = 5;
 const validaEmail = /^[a-z0-9.]+@[a-z0-9]+.[a-z]+.([a-z]+)?$/i;
@@ -11,43 +13,74 @@ export default class StarRating extends Component {
     rating: 0,
     comments: [],
     isValid: true,
+    email: '',
+    text: '',
+  };
+
+  componentDidMount() {
+    this.getLocalComments();
+  }
+
+  getLocalComments = () => {
+    const { product } = this.props;
+    const savedComments = JSON.parse(localStorage.getItem(product));
+    if (savedComments !== null) {
+      savedComments.forEach((item) => {
+        this.setState((prev) => ({
+          comments: [...prev.comments, item],
+        }));
+      });
+    }
   };
 
   setRating = (index) => {
     this.setState({ rating: index });
   };
 
+  handleChange = (event) => {
+    const { value, id } = event.target;
+    if (id === 'email') {
+      this.setState({ email: value });
+    } else {
+      this.setState({ text: value });
+    }
+  };
+
+  attLocalStorage = () => {
+    const { comments } = this.state;
+    const { product } = this.props;
+    localStorage.setItem(product, JSON.stringify(comments));
+  };
+
   handleSubmit = () => {
-    const inputEmail = document.querySelector('.email');
-    const textarea = document.querySelector('#textarea');
-    const { rating } = this.state;
-    if (validaEmail.test(inputEmail) && rating > 0) {
+    this.setState({ rating: 0 });
+    const { rating, email, text } = this.state;
+    if (validaEmail.test(email) && rating > 0) {
       this.setState((prev) => ({
         comments: [...prev.comments, {
-          email: inputEmail.value,
-          text: textarea.value,
+          email,
+          text,
           rating: JSON.stringify(rating),
         }],
         isValid: true,
-      }));
-      const { comments } = this.state;
-      localStorage.setItem('comments', JSON.stringify(comments));
-      inputEmail.value = '';
-      textarea.value = '';
-      console.log(textarea.value);
+        email: '',
+        text: '',
+      }), () => this.attLocalStorage());
     } else {
       this.setState({ isValid: false });
     }
   };
 
   render() {
-    const { rating, isValid } = this.state;
+    const { rating, isValid, comments, email, text } = this.state;
     return (
       <div className="star-rating">
         <form>
           <input
+            value={ email }
+            onChange={ this.handleChange }
             data-testid="product-detail-email"
-            className="email"
+            id="email"
             type="email"
             placeholder="Digite seu email"
           />
@@ -67,11 +100,13 @@ export default class StarRating extends Component {
             );
           })}
           <textarea
+            onChange={ this.handleChange }
+            value={ text }
             data-testid="product-detail-evaluation"
             placeholder="Escreva algo sobre o produto..."
             id="textarea"
           />
-          {isValid ? <p data-testid="error-msg">Campos inválidos</p> : <p /> }
+          {isValid ? '' : <p data-testid="error-msg">Campos inválidos</p> }
           <button
             type="button"
             data-testid="submit-review-btn"
@@ -80,7 +115,12 @@ export default class StarRating extends Component {
             Submit
           </button>
         </form>
+        <Reviews comments={ comments } />
       </div>
     );
   }
 }
+
+StarRating.propTypes = {
+  product: PropTypes.string.isRequired,
+};

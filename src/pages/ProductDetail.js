@@ -24,6 +24,7 @@ export default class ProductDetail extends Component {
   };
 
   render() {
+    const { match: { params: { id } } } = this.props;
     const { response, cartProducts } = this.state;
     return (
       <>
@@ -57,9 +58,7 @@ export default class ProductDetail extends Component {
             Add to Cart
           </button>
         </div>
-        <div>
-          <StarRating />
-        </div>
+        <StarRating product={ id } />
       </>
     );
   }
