@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import ResumoCompra from './ResumoCompra';
 
 class ShoppingCart extends React.Component {
   state = {
@@ -48,6 +47,10 @@ class ShoppingCart extends React.Component {
     const { name } = event.target;
     const newCart = shoppingCart.filter((item) => item.id !== name);
     this.setState({ shoppingCart: newCart });
+  };
+
+  cartClear = () => {
+    localStorage.removeItem('shoppingCart');
   };
 
   render() {
@@ -98,14 +101,14 @@ class ShoppingCart extends React.Component {
             </div>
           ))}
         <div>
-          <ResumoCompra />
-        </div>
-        <div>
           <Link
-            to="/ResumoCompra"
-            data-testid="checkout-products"
+            to={ {
+              pathname: '/resumocompra',
+              state: { shoppingCart },
+            } }
           >
             <button
+              data-testid="checkout-products"
               type="button"
             >
               Comprar
