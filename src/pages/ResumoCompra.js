@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router';
 import React from 'react';
 
 class ResumoCompra extends React.Component {
@@ -14,6 +15,7 @@ class ResumoCompra extends React.Component {
       endereco: '',
       pagamento: '',
       isValid: true,
+      redirect: false,
     };
   }
 
@@ -29,32 +31,26 @@ class ResumoCompra extends React.Component {
     const { nome, email, cpf, telefone, cep, endereco, pagamento } = this.state;
     const validarNome = nome.length >= 1;
     const validarEmail = email.length >= 1;
-    const validaCpf = cpf.length >= 1;
+    const validarCpf = cpf.length >= 1;
     const validarTelefone = telefone.length >= 1;
     const validarCep = cep.length >= 1;
-    console.log(validarCep);
     const validarEndereco = endereco.length >= 1;
     const validarPagamento = pagamento;
-    if (validarNome && validarEmail && validaCpf
-        && validarTelefone && validarCep && validarEndereco && validarPagamento) {
-      this.setState({ isValid: true });
+    if (validarNome && validarEmail && validarCpf
+    && validarTelefone && validarCep && validarEndereco && validarPagamento) {
+      localStorage.removeItem('shoppingCart');
+      this.setState({ isValid: false, redirect: true });
     } else {
       this.setState({ isValid: false });
     }
   };
 
-  finalizarCompra = () => {
-    this.verificaFormulario();
-    const { isValid } = this.state;
-    const { history } = this.props;
-    if (isValid) {
-      localStorage.removeItem('shoppingCart');
-    }
-  };
-
   render() {
     const { location: { state: { shoppingCart } } } = this.props;
-    const { isValid } = this.state;
+    const { isValid, redirect } = this.state;
+    if (redirect) {
+      return <Redirect to="/" />;
+    }
     return (
       <div>
         <div>
@@ -172,7 +168,7 @@ class ResumoCompra extends React.Component {
           <button
             type="button"
             data-testid="checkout-btn"
-            onClick={ this.finalizarCompra }
+            onClick={ this.verificaFormulario }
           >
             Finalizar Compra
 

@@ -49,10 +49,6 @@ class ShoppingCart extends React.Component {
     this.setState({ shoppingCart: newCart });
   };
 
-  cartClear = () => {
-    localStorage.removeItem('shoppingCart');
-  };
-
   render() {
     const { shoppingCart } = this.state;
     const { state } = this;
