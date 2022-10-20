@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getProductsFromCategoryAndQuery, getCategories } from '../services/api';
 import ProductCard from '../components/ProductCard';
+import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import './Home.css';
 
 class Home extends React.Component {
   constructor() {
@@ -71,12 +72,12 @@ class Home extends React.Component {
       listProducts, category, selectedCategory, cartProducts } = this.state;
     return (
       <div>
-        <h1
-          data-testid="home-initial-message"
-        >
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </h1>
-        <div>
+        <header>
+          <h1
+            data-testid="home-initial-message"
+          >
+            Digite algum termo de pesquisa ou escolha uma categoria.
+          </h1>
           <input data-testid="query-input" onChange={ this.onSearch } />
           <button type="button" onClick={ this.handleButton } data-testid="query-button">
             Buscar
@@ -91,9 +92,12 @@ class Home extends React.Component {
               Carrinho de compras!
             </button>
           </Link>
-          <h2>Categorias</h2>
+        </header>
+        <div className="categorias">
+          <h2 id="categoria-titulo">Categorias</h2>
           {category.map((element, index) => (
             <div
+              className="lista-categoria"
               key={ index }
             >
               <label htmlFor={ element.id } data-testid="category">
@@ -110,21 +114,23 @@ class Home extends React.Component {
             </div>
           ))}
         </div>
-        {!listProducts ? <p />
-          : (
-            <ProductCard
-              data={ request }
-              cartProducts={ cartProducts }
-              handleCartButton={ this.handleCartButton }
-            />)}
+        <div className="produtos">
+          {!listProducts ? <p />
+            : (
+              <ProductCard
+                data={ request }
+                cartProducts={ cartProducts }
+                handleCartButton={ this.handleCartButton }
+              />)}
 
-        {!selectedCategory ? <p />
-          : (
-            <ProductCard
-              data={ request }
-              cartProducts={ cartProducts }
-              handleCartButton={ this.handleCartButton }
-            />)}
+          {!selectedCategory ? <p />
+            : (
+              <ProductCard
+                data={ request }
+                cartProducts={ cartProducts }
+                handleCartButton={ this.handleCartButton }
+              />)}
+        </div>
       </div>
     );
   }
