@@ -76,9 +76,13 @@ class Home extends React.Component {
           <h1
             data-testid="home-initial-message"
           >
-            Digite algum termo de pesquisa ou escolha uma categoria.
+            Frontend Online Store
           </h1>
-          <input data-testid="query-input" onChange={ this.onSearch } />
+          <input
+            data-testid="query-input"
+            onChange={ this.onSearch }
+            placeholder="Digite algum termo de pesquisa ou escolha uma categoria."
+          />
           <button type="button" onClick={ this.handleButton } data-testid="query-button">
             Buscar
           </button>
