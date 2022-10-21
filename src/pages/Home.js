@@ -71,7 +71,7 @@ class Home extends React.Component {
     const { request,
       listProducts, category, selectedCategory, cartProducts } = this.state;
     return (
-      <div>
+      <div className="container">
         <header>
           <h1
             data-testid="home-initial-message"
