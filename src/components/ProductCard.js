@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import '../pages/Home.css';
 
 class ProductCard extends React.Component {
   render() {
