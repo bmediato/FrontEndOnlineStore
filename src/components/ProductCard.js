@@ -7,10 +7,10 @@ class ProductCard extends React.Component {
   render() {
     const { data, handleCartButton, cartProducts } = this.props;
     return (
-      <div>
+      <div className="container-geral">
         {data.length === 0 ? <p>Nenhum produto foi encontrado</p>
           : data.map((item, index) => (
-            <div data-testid="product" key={ index }>
+            <div className="item" data-testid="product" key={ index }>
               <Link
                 to={ {
                   pathname: `/product/${item.id}`,
